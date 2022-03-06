@@ -19,6 +19,7 @@ public:
     void loadFromFile(const char* fileName) override;
 
     inline size_t getSize() { return size; };
+    int get(size_t index);
 
 private:
     int* data;

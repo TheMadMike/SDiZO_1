@@ -61,15 +61,49 @@ void Array::add(int value, size_t index) {
 }
 
 void Array::remove(int value) {
+    
+    size_t index = find(value);
 
+    if(index == -1) {
+        std::cout << "Value not found \n";
+        return;
+    }
+
+    int* newData = new int[size-1];
+    for(int i = 0; i < index; ++i) {
+        newData[i] = data[i];
+    }
+
+    for(int i = index; i < (size-1); ++i) {
+        newData[i] = data[i+1];
+    }
+
+    delete[] data;
+    data = newData;
+    size -= 1;
 }
 
 size_t Array::find(int value) {
+    //basic linear search O(n)
+    for(size_t i = 0; i < size; ++i) {
+        if(data[i] == value)
+            return i;
+    }
 
+    return -1;
 }
 
 void Array::loadFromFile(const char* fileName) {
     
+}
+
+int Array::get(size_t index) {
+    if(index >= size) {
+        std::cout << "Index out of bounds! \n";
+        return 0;
+    }
+
+    return data[index];
 }
 
 };
