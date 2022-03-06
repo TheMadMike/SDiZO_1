@@ -3,21 +3,15 @@
 
 namespace sdizo {
 
-const char* GREETING = "SDiZO - projekt nr 1 \n"
-    "Autor: Michal Gibas (259563) \n";
+extern const char* GREETING;
 
-const char* PROMPT = "?: ";
+extern const char* PROMPT;
 
-const char* HORIZONTAL_SEPARATOR = "-----------------------\n";
+extern const char* HORIZONTAL_SEPARATOR;
 
-const char* MENU_OPTIONS = 
-"[1] Array\n"
-"[2] Linked list\n"
-"[3] Binary heap\n"
-"[4] Red-black tree\n"
-"[5] AVL tree\n"
-"[0] Exit\n";
+extern const char* MENU_OPTIONS;
 
+extern const char* SUBMENU_OPTIONS;
 
 };
 
