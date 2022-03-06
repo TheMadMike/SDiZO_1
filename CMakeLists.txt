@@ -9,9 +9,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED 17)
 
 set(SOURCES
 src/main.cpp
-src/Menu.cpp)
+src/Menu.cpp
+src/Submenu.cpp
+src/Array.cpp
+src/Strings.cpp)
 
 set(TARGET_NAME
 sdizo)
 
 add_executable(${TARGET_NAME} ${SOURCES})
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/tests)

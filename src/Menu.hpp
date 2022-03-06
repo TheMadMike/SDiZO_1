@@ -2,7 +2,8 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
-#include <string>
+#include "Submenu.hpp"
+#include "Array.hpp"
 
 namespace sdizo {
 
@@ -13,6 +14,14 @@ public:
 
 private:
     void openSubmenuFor(size_t structureId);
+
+    Submenu options[5] = {
+        Submenu(new Array()),
+        Submenu(nullptr),
+        Submenu(nullptr),
+        Submenu(nullptr),
+        Submenu(nullptr)
+    };
 };
 
 };

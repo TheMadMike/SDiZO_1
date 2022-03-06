@@ -1,6 +1,5 @@
 // Copyright 2022 by Michał Gibas
 #include "Menu.hpp"
-#include "Strings.hpp"
 #include <iostream>
 
 namespace sdizo {
@@ -14,7 +13,9 @@ int Menu::run() {
         std::cout << MENU_OPTIONS;
         std::cout << PROMPT;
 
-        std::cin >> option;
+        std::cin >> option; 
+
+        openSubmenuFor(option);
     } while(option != 0);
 
 
@@ -22,7 +23,13 @@ int Menu::run() {
 }
 
 void Menu::openSubmenuFor(size_t structureId) {
+    if(structureId == 0) return;
+    if(structureId > 5) {
+        std::cout << "Invalid option\n";
+        return;
+    }
 
+    options[structureId - 1].run();
 }
 
 };
