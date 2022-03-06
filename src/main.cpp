@@ -1,6 +1,8 @@
+#include "Menu.hpp"
 
+using namespace sdizo;
 
 int main(int argc, char** argv) {
-    
-    return 0;
+    Menu menu;
+    return menu.run();
 }

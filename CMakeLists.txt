@@ -8,7 +8,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED 17)
 
 set(SOURCES
-src/main.cpp)
+src/main.cpp
+src/Menu.cpp)
 
 set(TARGET_NAME
 sdizo)
