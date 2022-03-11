@@ -3,6 +3,7 @@
 #define SUBMENU_HPP
 
 #include "util/DataStructure.hpp"
+#include "util/Clock.hpp"
 #include "Strings.hpp"
 
 namespace sdizo {
@@ -20,7 +21,10 @@ private:
     void removeElement();
     void loadFromFile();
 
+    void printOperationDuration();
+
     DataStructure* data;
+    Clock operationClock;
 };
 
 };

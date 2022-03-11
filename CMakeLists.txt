@@ -12,7 +12,8 @@ src/main.cpp
 src/Menu.cpp
 src/Submenu.cpp
 src/Array.cpp
-src/Strings.cpp)
+src/Strings.cpp
+src/util/Clock.cpp)
 
 set(TARGET_NAME
 sdizo)

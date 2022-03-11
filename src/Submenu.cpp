@@ -7,7 +7,7 @@ namespace sdizo {
 
 Submenu::Submenu(DataStructure* data) 
 :data(data) {
-
+    
 }
 
 void Submenu::run() {
@@ -27,10 +27,15 @@ void Submenu::run() {
             default: std::cout << "Invalid option\n"; break;
         }
 
+        operationClock.stop();
+        printOperationDuration();
+        
+
     } while(option != 0);
 }
 
 void Submenu::printElements() {
+    operationClock.start();
     data->print();
 }
 
@@ -41,21 +46,35 @@ void Submenu::addElement() {
     size_t index = readIndexFromStdin();
     int value = readValueFromStdin();
 
+    operationClock.start();
     data->add(value, index);
+    
 }
 
 void Submenu::removeElement() {
+    operationClock.start();
     data->remove(readValueFromStdin());
 }
 
 void Submenu::findElement() {
-    std::cout << data->find(readValueFromStdin()) << '\n';
+    int value = readValueFromStdin();
+
+    operationClock.start();
+    size_t index = data->find(value);
+    
+    std::cout << (index == -1) ? -1 : (int)index << '\n';
 }
 
 void Submenu::loadFromFile() {
     std::string fileName;
     std::cout << "File name: "; std::cin >> fileName;
+    operationClock.start();
     data->loadFromFile(fileName.c_str());
+}
+
+void Submenu::printOperationDuration() {
+    std::cout << "Total operation time: " << operationClock.getDurationMs()
+        << "ms\n\n";
 }
 
 int readValueFromStdin() {
