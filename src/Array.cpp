@@ -28,6 +28,10 @@ void Array::print() {
 }
 
 void Array::add(int value, size_t index) {
+    //check if index is out of bounds and is not a special value [-1]
+    if((index >= size) && (index != -1)) {
+        return;
+    }
 
     //copy the data into a new array with size = size + 1
     int* dataCopy = new int[size+1];
