@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "ArrayTest.cpp"
+#include "ListTest.cpp"
 
 int runTests();
 
@@ -12,6 +13,7 @@ int main(void) {
 int runTests() {
     try {
         runArrayTests();
+        runListTests();
     } catch(std::exception e) {
         std::cout << e.what() << "\n";
         return -1;

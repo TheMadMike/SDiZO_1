@@ -4,6 +4,7 @@
 
 #include "Submenu.hpp"
 #include "Array.hpp"
+#include "DoublyLinkedList.hpp"
 
 namespace sdizo {
 
@@ -17,7 +18,7 @@ private:
 
     Submenu options[5] = {
         Submenu(new Array()),
-        Submenu(nullptr),
+        Submenu(new DoublyLinkedList()),
         Submenu(nullptr),
         Submenu(nullptr),
         Submenu(nullptr)

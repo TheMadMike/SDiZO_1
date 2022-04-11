@@ -1,6 +1,8 @@
 set(TEST_SOURCES
 tests.cpp
-../Array.cpp)
+../Array.cpp
+../DoublyLinkedList.cpp
+../Strings.cpp)
 
 set(TEST_TARGET
 test
