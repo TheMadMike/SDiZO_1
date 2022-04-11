@@ -5,8 +5,8 @@
 
 namespace sdizo {
 
-Submenu::Submenu(DataStructure* data) 
-:data(data) {
+Submenu::Submenu(DataStructure* data, bool askForIndex) 
+:data(data), askForIndex(askForIndex) {
     
 }
 
@@ -43,7 +43,11 @@ int readValueFromStdin();
 size_t readIndexFromStdin();
 
 void Submenu::addElement() {
-    size_t index = readIndexFromStdin();
+    size_t index = -1;
+    if(askForIndex) {
+        index = readIndexFromStdin();
+    }
+
     int value = readValueFromStdin();
 
     operationClock.start();
@@ -85,7 +89,7 @@ int readValueFromStdin() {
 
 size_t readIndexFromStdin() {
     size_t index = -1;
-    std::cout << "Index [-1 -> last]: "; std::cin >> index;
+    std::cout << INDEX_PROMPT; std::cin >> index;
     return index;
 }
 

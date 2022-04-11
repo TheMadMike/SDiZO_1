@@ -24,4 +24,5 @@ const char* SUBMENU_OPTIONS =
 "[5] Load from file\n"
 "[0] Exit\n";
 
+const char* INDEX_PROMPT = "Index [-1 = back; -2 = front]: ";
 };

@@ -13,6 +13,8 @@ extern const char* MENU_OPTIONS;
 
 extern const char* SUBMENU_OPTIONS;
 
+extern const char* INDEX_PROMPT;
+
 };
 
 #endif //STRINGS_HPP

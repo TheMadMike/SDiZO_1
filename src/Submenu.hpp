@@ -11,7 +11,7 @@ namespace sdizo {
 class Submenu {
 
 public:
-    Submenu(DataStructure* data);
+    Submenu(DataStructure* data, bool askForIndex=true);
     void run();
 
 private:
@@ -24,6 +24,7 @@ private:
     void printOperationDuration();
 
     DataStructure* data;
+    bool askForIndex;
     Clock operationClock;
 };
 

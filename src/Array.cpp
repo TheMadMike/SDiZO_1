@@ -28,8 +28,8 @@ void Array::print() {
 }
 
 void Array::add(int value, size_t index) {
-    //check if index is out of bounds and is not a special value [-1]
-    if((index >= size) && (index != -1)) {
+    //check if index is out of bounds and is not a special value [-1 or -2]
+    if((index >= size) && (index != -1) && (index != -2)) {
         return;
     }
 
@@ -52,6 +52,10 @@ void Array::add(int value, size_t index) {
     if(index == -1) {
         data[size-1] = value;
         return;
+    }
+
+    if(index == -2) {
+        index = 0;
     }
 
     //shift all of the values after index to the right
