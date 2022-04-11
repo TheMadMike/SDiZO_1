@@ -15,6 +15,8 @@ extern const char* SUBMENU_OPTIONS;
 
 extern const char* INDEX_PROMPT;
 
+extern const char* OUT_OF_BOUNDS_MESSAGE;
+
 };
 
 #endif //STRINGS_HPP

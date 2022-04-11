@@ -28,8 +28,8 @@ void Array::print() {
 }
 
 void Array::add(int value, size_t index) {
-    //check if index is out of bounds and is not a special value [-1 or -2]
-    if((index >= size) && (index != -1) && (index != -2)) {
+    
+    if(!indexInBounds(index, size)) {
         return;
     }
 

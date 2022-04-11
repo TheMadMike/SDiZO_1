@@ -25,4 +25,7 @@ const char* SUBMENU_OPTIONS =
 "[0] Exit\n";
 
 const char* INDEX_PROMPT = "Index [-1 = back; -2 = front]: ";
+
+const char* OUT_OF_BOUNDS_MESSAGE = "Index out of bounds!\n";
+
 };

@@ -2,7 +2,9 @@
 #ifndef DATASTRUCTURE_HPP
 #define DATASTRUCTURE_HPP
 
+#include <iostream>
 #include "types.hpp"
+#include "../Strings.hpp"
 
 namespace sdizo {
 
@@ -17,6 +19,15 @@ public:
 
     virtual void loadFromFile(const char* fileName) = 0;
 
+protected:
+    //check if index is out of bounds and is not a special value [-1 or -2]
+    bool indexInBounds(size_t index, size_t size) {
+        if((index < size) || (index == -1) || (index == -2)) {
+            return true;
+        }
+        std::cout << OUT_OF_BOUNDS_MESSAGE;
+        return false;
+    }
 };
 
 };
