@@ -57,7 +57,7 @@ void Submenu::addElement() {
 
 void Submenu::removeElement() {
     operationClock.start();
-    data->remove(readValueFromStdin());
+    data->remove(readIndexFromStdin());
 }
 
 void Submenu::findElement() {

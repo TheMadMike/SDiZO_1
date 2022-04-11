@@ -14,7 +14,7 @@ public:
 
     void print() override;
     void add(int value, size_t index=-1) override;
-    void remove(int value) override;
+    void remove(size_t index=-1) override;
     size_t find(int value) override;
     void loadFromFile(const char* fileName) override;
 

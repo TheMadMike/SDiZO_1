@@ -14,7 +14,7 @@ public:
 
     virtual void print() = 0;
     virtual void add(int value, size_t index=-1) = 0;
-    virtual void remove(int value) = 0;
+    virtual void remove(size_t index=-1) = 0;
     virtual size_t find(int value) = 0;
 
     virtual void loadFromFile(const char* fileName) = 0;

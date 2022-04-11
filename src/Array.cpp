@@ -68,12 +68,16 @@ void Array::add(int value, size_t index) {
 
 }
 
-void Array::remove(int value) {
+void Array::remove(size_t index) {
+    if(index == -2) {
+        index = 0;
+    }
     
-    size_t index = find(value);
+    else if(index == -1) {
+        index = size - 1;
+    }
 
-    if(index == -1) {
-        std::cout << "Value not found \n";
+    if(!indexInBounds(index, size)) {
         return;
     }
 

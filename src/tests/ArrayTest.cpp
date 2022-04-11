@@ -39,7 +39,7 @@ void shouldRemoveElement() {
     Array array;
     array.add(1);
     assert(array.getSize() == 1);
-    array.remove(1);
+    array.remove(-1);
     assert(array.getSize() == 0);
 }
 

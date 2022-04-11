@@ -98,7 +98,7 @@ void DoublyLinkedList::print() {
     std::cout << "]\n";
 }
 
-void DoublyLinkedList::remove(int value) {
+void DoublyLinkedList::remove(size_t index) {
     //TODO: implement removing elements
     --size;
 }
