@@ -66,7 +66,13 @@ void Submenu::findElement() {
     operationClock.start();
     size_t index = data->find(value);
     
-    std::cout << (index == -1) ? -1 : (int)index << '\n';
+    if(index == -1) {
+        std::cout << "Element not found!\n";
+        return;
+    }
+    
+    std::cout << index;
+    std::cout << '\n';
 }
 
 void Submenu::loadFromFile() {
