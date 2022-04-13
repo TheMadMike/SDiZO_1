@@ -24,6 +24,9 @@ public:
 
     void addFront(int value);
     void addBack(int value);
+    void removeFront();
+    void removeBack();
+
     size_t getSize();
 private:
     Element* head;

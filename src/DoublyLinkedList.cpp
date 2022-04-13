@@ -98,8 +98,62 @@ void DoublyLinkedList::print() {
     std::cout << "]\n";
 }
 
+void DoublyLinkedList::removeBack() {
+    if(size == 0UL)
+        return;
+
+    Element* element = last;
+    last = element->previous;
+    last->next = nullptr;
+
+    --size;
+    delete element;
+}
+
+void DoublyLinkedList::removeFront() {
+    if(size == 0UL)
+        return;
+    
+    Element* element = head;
+    head = element->next;
+    head->previous = nullptr;
+
+    --size;
+    delete element;
+}
+
 void DoublyLinkedList::remove(size_t index) {
-    //TODO: implement removing elements
+    if(!indexInBounds(index, size))
+        return;
+
+    if(index == -1) {
+        removeBack();
+        return;
+    }
+    else if(index == -2) {
+        removeFront();
+        return;
+    }
+
+    Element* iterator = head;
+    for(int i = 1; i <= index; ++i) {
+        iterator = iterator->next;
+    }
+
+    if(iterator != nullptr) {
+        Element* previous = iterator->previous;
+        Element* next = iterator->next;
+
+        if(previous != nullptr) {
+            previous->next = next;
+        }
+        if(next != nullptr) {
+            next->previous = previous;
+        }
+    }
+
+    delete iterator;
+
     --size;
 }
 
