@@ -14,6 +14,7 @@ src/Submenu.cpp
 src/Array.cpp
 src/Strings.cpp
 src/DoublyLinkedList.cpp
+src/MaxHeap.cpp
 src/util/Clock.cpp)
 
 set(TARGET_NAME

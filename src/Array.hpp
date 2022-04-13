@@ -21,7 +21,7 @@ public:
     inline size_t getSize() { return size; };
     int get(size_t index);
 
-private:
+protected:
     int* data;
     size_t size;
 };

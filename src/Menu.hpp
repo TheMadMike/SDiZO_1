@@ -5,6 +5,7 @@
 #include "Submenu.hpp"
 #include "Array.hpp"
 #include "DoublyLinkedList.hpp"
+#include "MaxHeap.hpp"
 
 namespace sdizo {
 
@@ -19,7 +20,7 @@ private:
     Submenu options[5] = {
         Submenu(new Array()),
         Submenu(new DoublyLinkedList()),
-        Submenu(nullptr),
+        Submenu(new MaxHeap(), false),
         Submenu(nullptr),
         Submenu(nullptr)
     };

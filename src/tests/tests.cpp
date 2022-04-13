@@ -3,6 +3,7 @@
 
 #include "ArrayTest.cpp"
 #include "ListTest.cpp"
+#include "HeapTest.cpp"
 
 int runTests();
 
@@ -14,6 +15,7 @@ int runTests() {
     try {
         runArrayTests();
         runListTests();
+        runHeapTests();
     } catch(std::exception e) {
         std::cout << e.what() << "\n";
         return -1;
