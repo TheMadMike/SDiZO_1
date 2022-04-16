@@ -6,6 +6,7 @@
 #include "Array.hpp"
 #include "DoublyLinkedList.hpp"
 #include "MaxHeap.hpp"
+#include "RedBlackTree.hpp"
 
 namespace sdizo {
 
@@ -21,7 +22,7 @@ private:
         Submenu(new Array()),
         Submenu(new DoublyLinkedList()),
         Submenu(new MaxHeap(), false),
-        Submenu(nullptr),
+        Submenu(new RedBlackTree(), false),
         Submenu(nullptr)
     };
 };

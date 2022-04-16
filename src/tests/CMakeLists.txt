@@ -3,6 +3,7 @@ tests.cpp
 ../Array.cpp
 ../DoublyLinkedList.cpp
 ../MaxHeap.cpp
+../RedBlackTree.cpp
 ../Strings.cpp)
 
 set(TEST_TARGET
