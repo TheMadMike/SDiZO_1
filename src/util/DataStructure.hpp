@@ -5,6 +5,7 @@
 #include <iostream>
 #include "types.hpp"
 #include "../Strings.hpp"
+#include "FileReader.hpp"
 
 namespace sdizo {
 
@@ -17,7 +18,13 @@ public:
     virtual void remove(size_t index=-1) = 0;
     virtual size_t find(int value) = 0;
 
-    virtual void loadFromFile(const char* fileName) = 0;
+    virtual void loadFromFile(const char* fileName) {
+        FileReader reader(fileName);
+        size_t dataSetSize = (size_t) reader.readNext<unsigned long>();
+        for(size_t i = 0; i < dataSetSize; ++i) {
+            this->add(reader.readNext<int>());
+        }
+    }
 
 protected:
     //check if index is out of bounds and is not a special value [-1 or -2]

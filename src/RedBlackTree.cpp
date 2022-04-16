@@ -222,8 +222,4 @@ size_t RedBlackTree::find(int value) {
 
 }
 
-void RedBlackTree::loadFromFile(const char* fileName) {
-
-}
-
 };

@@ -1,6 +1,7 @@
 // Copyright 2022 by Michał Gibas
 #include "Array.hpp"
 #include <iostream>
+#include "util/FileReader.hpp"
 
 namespace sdizo {
 
@@ -106,7 +107,15 @@ size_t Array::find(int value) {
 }
 
 void Array::loadFromFile(const char* fileName) {
-    
+    FileReader reader(fileName);
+    size = (size_t)reader.readNext<unsigned long>();
+
+    delete[] data;
+    data = new int[size];
+
+    for(size_t i = 0; i < size; ++i) {
+        data[i] = reader.readNext<int>();
+    }
 }
 
 int Array::get(size_t index) {

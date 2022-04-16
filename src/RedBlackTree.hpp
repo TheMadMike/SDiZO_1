@@ -28,7 +28,6 @@ public:
     void add(int value, size_t index=-1) override;
     void remove(size_t index=-1) override;
     size_t find(int value) override;
-    void loadFromFile(const char* fileName) override;
 
     inline Element* getRoot() { return root; }
 

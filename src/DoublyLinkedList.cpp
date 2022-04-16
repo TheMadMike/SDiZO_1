@@ -171,10 +171,6 @@ size_t DoublyLinkedList::find(int value) {
     return -1;
 }
 
-void DoublyLinkedList::loadFromFile(const char* fileName) {
-
-}
-
 size_t DoublyLinkedList::getSize() {
     return size;
 }
