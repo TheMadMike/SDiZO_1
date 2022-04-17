@@ -22,6 +22,7 @@ const char* SUBMENU_OPTIONS =
 "[3] Find\n"
 "[4] Print all\n"
 "[5] Load from file\n"
+"[6] Run time benchmarks\n"
 "[0] Exit\n";
 
 const char* INDEX_PROMPT = "Index [-1 = back; -2 = front]: ";

@@ -21,5 +21,11 @@ double Clock::getDurationMs() {
     return duration.count();
 }
 
+double Clock::getDurationUs() {
+    DoubleMicrosecondsDuration duration = stopPoint - startPoint;
+
+    return duration.count();
+}
+
 
 };

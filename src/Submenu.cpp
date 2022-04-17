@@ -2,6 +2,7 @@
 #include "Submenu.hpp"
 
 #include <iostream>
+#include "util/Benchmark.hpp"
 
 namespace sdizo {
 
@@ -17,6 +18,11 @@ void Submenu::run() {
     do {
         std::cout << SUBMENU_OPTIONS << PROMPT;
         std::cin >> option;
+
+        if(option == 6) {
+            runTimeBenchmarks();
+            continue;
+        }
         
         switch(option) {
             case 1: addElement(); break;
@@ -80,6 +86,41 @@ void Submenu::loadFromFile() {
     std::cout << "File name: "; std::cin >> fileName;
     operationClock.start();
     data->loadFromFile(fileName.c_str());
+}
+
+void Submenu::runTimeBenchmarks() {
+    std::string filePrefix;
+    std::cout << "Output file prefix: "; std::cin >> filePrefix;
+    
+    size_t sampleCount;
+    std::cout << "Number of samples: "; std::cin >> sampleCount;
+
+    std::cout << "Sample sizes [" << sampleCount << "]\n";
+
+    size_t* sampleSizes = new size_t[sampleCount];
+
+    for(size_t i = 0; i< sampleCount; ++i) {
+        std::cin >> sampleSizes[i];
+    }
+
+    size_t repetitions;
+    std::cout << "Repetitions: "; std::cin >> repetitions;
+
+    std::cout << "For insertion: ";
+    size_t insertIndex = readIndexFromStdin();
+
+    std::cout << "For removal: ";
+    size_t removeIndex = readIndexFromStdin();
+
+
+    Benchmark benchmark(data, filePrefix.c_str());
+    benchmark.setSampleSizes(sampleSizes, sampleCount);
+    benchmark.setRepetitions(3);
+    benchmark.setInsertionIndex(insertIndex);
+    benchmark.setRemovalIndex(removeIndex);
+    benchmark.run();
+
+    delete[] sampleSizes;
 }
 
 void Submenu::printOperationDuration() {

@@ -15,11 +15,14 @@ public:
     void stop();
 
     double getDurationMs();
+    double getDurationUs();
+
 private:
     
     typedef std::chrono::high_resolution_clock HighResolutionClock;
     typedef std::chrono::time_point<HighResolutionClock> Timepoint;
     typedef std::chrono::duration<double, std::milli> DoubleMillisecondsDuration;
+    typedef std::chrono::duration<double, std::micro> DoubleMicrosecondsDuration;
 
     Timepoint startPoint, stopPoint;
     HighResolutionClock internalClock;

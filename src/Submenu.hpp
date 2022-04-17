@@ -20,6 +20,7 @@ private:
     void findElement();
     void removeElement();
     void loadFromFile();
+    void runTimeBenchmarks();
 
     void printOperationDuration();
 
