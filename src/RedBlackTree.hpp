@@ -27,7 +27,10 @@ public:
     void print() override;
     void add(int value, size_t index=-1) override;
     void remove(size_t index=-1) override;
+    void removeByValue(int value) override;
     size_t find(int value) override;
+
+    Element* findElement(int value);
 
     inline Element* getRoot() { return root; }
 
@@ -38,7 +41,10 @@ private:
     void printRecursive(Element* element, size_t spaces);
     void deleteSubtree(Element* element);
 
-    void fix(Element* element);
+    void fixInsertion(Element* element);
+    void fixRemoval(Element* element);
+
+    void replace(Element* previous, Element* element);
 
     Element* root;
     size_t size;

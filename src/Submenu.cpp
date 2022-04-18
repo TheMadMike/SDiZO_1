@@ -62,8 +62,15 @@ void Submenu::addElement() {
 }
 
 void Submenu::removeElement() {
+    if(askForIndex) {
+        size_t index = readIndexFromStdin();
+        operationClock.start();
+        data->remove(index);
+        return;
+    }
+    int value = readValueFromStdin();
     operationClock.start();
-    data->remove(readIndexFromStdin());
+    data->removeByValue(value);
 }
 
 void Submenu::findElement() {
