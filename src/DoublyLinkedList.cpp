@@ -104,7 +104,9 @@ void DoublyLinkedList::removeBack() {
 
     Element* element = last;
     last = element->previous;
-    last->next = nullptr;
+    if(last != nullptr) {
+        last->next = nullptr;
+    }
 
     --size;
     delete element;
