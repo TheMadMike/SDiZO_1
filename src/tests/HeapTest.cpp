@@ -19,9 +19,9 @@ void shouldAddElements() {
     
     */
 
-    assert(heap.get(0) == 3);
-    assert(heap.get(1) == 1);
-    assert(heap.get(2) == 2);
+    assert(heap.getKey(0) == 3);
+    assert(heap.getKey(1) == 1);
+    assert(heap.getKey(2) == 2);
 }
 
 };
