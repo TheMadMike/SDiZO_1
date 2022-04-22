@@ -13,7 +13,6 @@ const char* MENU_OPTIONS =
 "[2] Linked list\n"
 "[3] Binary heap\n"
 "[4] Red-black tree\n"
-"[5] AVL tree\n"
 "[0] Exit\n";
 
 const char* SUBMENU_OPTIONS =
