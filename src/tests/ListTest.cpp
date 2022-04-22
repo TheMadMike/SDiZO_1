@@ -46,11 +46,23 @@ void shouldAddElementAtFrontAndBack() {
     assert(list.getSize() == 1UL);
 }
 
+void shouldNotThrowWhenRemovedFromEmptyList() {
+    DoublyLinkedList list;
+    for(size_t i = 0; i < 10; ++i) {
+        list.remove(-1);
+        list.remove(-2);
+        list.remove(1);
+    }
+
+    assert(list.getSize() == 0UL);
+}
+
 };
 
 void runListTests() {
     ListTest::shouldAddElements();
     ListTest::shouldInsertInTheMiddle();  
     ListTest::shouldAddElementAtFrontAndBack();
-    ListTest::shouldDeleteElementInTheMiddle();  
+    ListTest::shouldDeleteElementInTheMiddle();
+    ListTest::shouldNotThrowWhenRemovedFromEmptyList();
 }

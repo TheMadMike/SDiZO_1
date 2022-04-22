@@ -6,7 +6,7 @@ namespace sdizo {
 
 DoublyLinkedList::DoublyLinkedList() {
     head = nullptr;
-    head = last;
+    last = nullptr;
     size = 0UL;
 }
 
@@ -32,18 +32,24 @@ void DoublyLinkedList::addBack(int value) {
     element->value = value;
     element->next = nullptr;
     element->previous = last;
-    if(last == nullptr) {
-        last = element;
-        head = last;
-        return;
-    }
     last->next = element;
+    element->previous = last;
     last = element;
 }
 
 void DoublyLinkedList::add(int value, size_t index) {
 
     if(!indexInBounds(index, size)) {
+        return;
+    }
+
+    if(head == nullptr) {
+        head = new Element;
+        head->value = value;
+        head->previous = nullptr;
+        head->next = nullptr;
+        last = head;
+        size += 1;
         return;
     }
 
@@ -59,13 +65,12 @@ void DoublyLinkedList::add(int value, size_t index) {
     }
     
     Element* iterator = head;
-    for(int i = 1; i <= index; ++i) {
+    for(int i = 0; i < index; ++i) {
         iterator = iterator->next;
     }
 
     if(iterator != nullptr) {
         Element* previous = iterator->previous;
-        Element* next = iterator->next;
         Element* element = new Element;
         element->value = value;
         
@@ -73,12 +78,9 @@ void DoublyLinkedList::add(int value, size_t index) {
             previous->next = element;
         }
 
-        if(next != nullptr) {
-            next->previous = element;
-        }
-
         element->previous = previous;
         element->next = iterator;
+        iterator->previous = element;
 
         ++size;
     }
@@ -99,10 +101,20 @@ void DoublyLinkedList::print() {
 }
 
 void DoublyLinkedList::removeBack() {
-    if(size == 0UL)
-        return;
-
     Element* element = last;
+    if(element == nullptr) {
+        return;
+    }
+
+    if(element == head) {
+        head = nullptr;
+        last = nullptr;
+    }
+
+    else if(element->previous == head) {
+        last = head;
+    }
+
     last = element->previous;
     if(last != nullptr) {
         last->next = nullptr;
@@ -113,26 +125,35 @@ void DoublyLinkedList::removeBack() {
 }
 
 void DoublyLinkedList::removeFront() {
-    if(size == 0UL)
+    if(head == nullptr) {
         return;
-    
+    }
+
     Element* element = head;
     head = element->next;
-    head->previous = nullptr;
+    if(head != nullptr) {
+        head->previous = nullptr;
+    } else {
+        last = nullptr;
+    }
 
     --size;
     delete element;
 }
 
 void DoublyLinkedList::remove(size_t index) {
+    if(size == 0UL) {
+        return;
+    }
+    
     if(!indexInBounds(index, size))
         return;
 
-    if(index == -1) {
+    if(index == -1 || index == (size -1)) {
         removeBack();
         return;
     }
-    else if(index == -2) {
+    else if(index == -2 || index == 0) {
         removeFront();
         return;
     }
@@ -152,11 +173,13 @@ void DoublyLinkedList::remove(size_t index) {
         if(next != nullptr) {
             next->previous = previous;
         }
+        
+        delete iterator;
+
+        --size;
     }
 
-    delete iterator;
 
-    --size;
 }
 
 size_t DoublyLinkedList::find(int value) {
