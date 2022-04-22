@@ -9,6 +9,10 @@
 
 namespace sdizo {
 
+/*
+    An abstract class with all neccessary 
+    operations for each data structure
+*/
 class DataStructure {
 
 public:
@@ -26,6 +30,8 @@ public:
             this->add(reader.readNext<int>());
         }
     }
+
+    virtual int getKey(size_t index) { return 0; }
 
 protected:
     //check if index is out of bounds and is not a special value [-1 or -2]
