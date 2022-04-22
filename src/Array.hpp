@@ -6,6 +6,7 @@
 
 namespace sdizo {
 
+/* Dynamic array implementation */
 class Array :public DataStructure {
 
 public:
@@ -19,11 +20,20 @@ public:
     void loadFromFile(const char* fileName) override;
 
     inline size_t getSize() { return size; };
-    int get(size_t index);
+    int getKey(size_t index) override;
+
+    void addBack(int value);
+    void addFront(int value);
+    void removeFront();
+    void removeBack();
 
 protected:
     int* data;
     size_t size;
+
+private:
+    void resizeAndCopyForInsertion();
+
 };
 
 };

@@ -28,36 +28,91 @@ void Array::print() {
     std::cout << "]\n";
 }
 
-void Array::add(int value, size_t index) {
+void Array::removeFront() {
+    int* newData = new int[size-1];
     
-    if(!indexInBounds(index, size)) {
-        return;
+    for(int i = 0; i < (size-1); ++i) {
+        newData[i] = data[i+1];
     }
 
-    //copy the data into a new array with size = size + 1
-    int* dataCopy = new int[size+1];
+    size -= 1;
+
+    if(data != nullptr) {
+        delete[] data;
+    }
+
+    data = newData;
+}
+
+void Array::removeBack() {
+    int* newData = new int[size-1];
     
+    for(int i = 0; i < (size-1); ++i) {
+        newData[i] = data[i];
+    }
+
+    size -= 1;
+
+    if(data != nullptr) {
+        delete[] data;
+    }
+
+    data = newData;
+}
+
+void Array::addBack(int value) {
+    int* dataCopy = new int[size+1];
+
     for(int i = 0; i < size; ++i) {
         dataCopy[i] = data[i];
     }
 
+    dataCopy[size] = value;
+
     size += 1;
-    
-    //delete old data and assign dataCopy address to data
+
     if(data != nullptr) {
         delete[] data;
     }
 
     data = dataCopy;
+}
 
+void Array::addFront(int value) {
+    int* dataCopy = new int[size+1];
+
+    for(int i = 0; i < size; ++i) {
+        dataCopy[i+1] = data[i];
+    }
+
+    size += 1;
+
+    dataCopy[0] = value;
+
+    if(data != nullptr) {
+        delete[] data;
+    }
+
+    data = dataCopy;
+}
+
+void Array::add(int value, size_t index) {
+    
     if(index == -1) {
-        data[size-1] = value;
+        addBack(value);
         return;
     }
 
     if(index == -2) {
-        index = 0;
+        addFront(value);
+        return;
     }
+    
+    if(!indexInBounds(index, size)) {
+        return;
+    }
+
+    resizeAndCopyForInsertion();
 
     //shift all of the values after index to the right
     for(int i = (size-1); i > index; --i) {
@@ -70,12 +125,18 @@ void Array::add(int value, size_t index) {
 }
 
 void Array::remove(size_t index) {
+    if(size == 0UL) {
+        return;
+    }
+    
     if(index == -2) {
-        index = 0;
+        removeFront();
+        return;
     }
     
     else if(index == -1) {
-        index = size - 1;
+        removeBack();
+        return;
     }
 
     if(!indexInBounds(index, size)) {
@@ -118,13 +179,31 @@ void Array::loadFromFile(const char* fileName) {
     }
 }
 
-int Array::get(size_t index) {
+int Array::getKey(size_t index) {
     if(index >= size) {
         std::cout << "Index out of bounds! \n";
         return 0;
     }
 
     return data[index];
+}
+
+void Array::resizeAndCopyForInsertion() {
+    //copy the data into a new array with size = size + 1
+    int* dataCopy = new int[size+1];
+    
+    for(int i = 0; i < size; ++i) {
+        dataCopy[i] = data[i];
+    }
+
+    size += 1;
+    
+    //delete old data and assign dataCopy address to data
+    if(data != nullptr) {
+        delete[] data;
+    }
+
+    data = dataCopy;
 }
 
 };

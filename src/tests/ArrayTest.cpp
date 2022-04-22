@@ -21,7 +21,7 @@ void shouldAddElements() {
     array.add(0, 0);
     
     for(size_t i = 0; i < 4; ++i) {
-        assert(array.get(i) == i);
+        assert(array.getKey(i) == i);
     }
 }
 
@@ -43,6 +43,17 @@ void shouldRemoveElement() {
     assert(array.getSize() == 0);
 }
 
+void shouldNotThrowWhenRemovedFromEmptyArray() {
+    Array array;
+    for(size_t i = 0; i < 10; ++i) {
+        array.remove(-1);
+        array.remove(-2);
+        array.remove(1);
+    }
+
+    assert(array.getSize() == 0UL);
+}
+
 };
 
 void runArrayTests() {
@@ -50,4 +61,5 @@ void runArrayTests() {
     ArrayTest::shouldAddElements();
     ArrayTest::shouldFindElement();
     ArrayTest::shouldRemoveElement();
+    ArrayTest::shouldNotThrowWhenRemovedFromEmptyArray();
 }
