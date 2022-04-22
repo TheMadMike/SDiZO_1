@@ -97,7 +97,7 @@ void Submenu::loadFromFile() {
 
 void Submenu::runTimeBenchmarks() {
     std::string filePrefix;
-    std::cout << "Output file prefix: "; std::cin >> filePrefix;
+    std::cout << "Output file name: "; std::cin >> filePrefix;
     
     size_t sampleCount;
     std::cout << "Number of samples: "; std::cin >> sampleCount;
@@ -122,7 +122,7 @@ void Submenu::runTimeBenchmarks() {
 
     Benchmark benchmark(data, filePrefix.c_str());
     benchmark.setSampleSizes(sampleSizes, sampleCount);
-    benchmark.setRepetitions(3);
+    benchmark.setRepetitions(repetitions);
     benchmark.setInsertionIndex(insertIndex);
     benchmark.setRemovalIndex(removeIndex);
     benchmark.run();

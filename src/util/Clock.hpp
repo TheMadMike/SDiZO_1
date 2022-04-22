@@ -6,15 +6,19 @@
 
 namespace sdizo {
 
+
+/* Utility class for easy time measuring */
 class Clock {
 
 public:
     Clock();
-
+    
     void start();
     void stop();
 
+    /* get measured time in milliseconds*/
     double getDurationMs();
+    /* get measured time in microseconds*/
     double getDurationUs();
 
 private:
