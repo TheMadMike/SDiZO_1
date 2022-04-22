@@ -9,7 +9,11 @@ namespace sdizo {
 class FileReader {
 
 public:
-    FileReader(const char* fileName) : inputStream(fileName){}
+    FileReader(const char* fileName) : inputStream(fileName){
+        if(!inputStream.is_open()) {
+            throw new std::runtime_error("Could not open a file! Try again");
+        }
+    }
     virtual ~FileReader() { inputStream.close(); }
 
     template<typename T> T readNext(){
