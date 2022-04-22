@@ -1,6 +1,7 @@
 // Copyright 2022 by Michał Gibas
 #include "MaxHeap.hpp"
 #include <iostream>
+#include "util/FileReader.hpp"
 
 namespace sdizo {
 
@@ -63,6 +64,63 @@ void MaxHeap::swapNodes(size_t a, size_t b) {
     int tmp = data[a];
     data[a] = data[b];
     data[b] = tmp;
+}
+
+void MaxHeap::remove(size_t index) {
+    if(!indexInBounds(index, size))
+        return;
+
+    if(data == nullptr) 
+        return;
+
+    if(index == -1) {
+        if(data+1 == nullptr) {
+            delete[] data;
+        }
+
+        data[0] = data[size - 1];
+        heapify(0);
+        Array::remove(-1);
+        return;
+    }
+
+    data[index] = data[size - 1];
+    heapify(0);
+    Array::remove(-1);
+
+}
+
+void MaxHeap::heapify(size_t index) {
+    size_t left = this->getLeftIndex(index);
+    size_t right = this->getRightIndex(index);
+    size_t largest;
+    largest = index;
+    if(left < size){
+        if(data[left] > data[largest])
+        largest = left;
+    }
+    if(right < size){
+        if(data[right] > data[largest])
+        largest = right;
+    }
+
+    if(largest != index){
+        int buffer = data[index];
+        data[index] = data[largest];
+        data[largest] = buffer;
+        heapify(largest);
+    }
+}
+
+void MaxHeap::loadFromFile(const char* fileName) {
+    FileReader reader(fileName);
+    size_t size = reader.readNext<unsigned long>();
+
+    for(size_t i = 0; i < size; ++i) {
+        int value = reader.readNext<int>();
+        this->add(value);
+    }
+
 }
 
 };
