@@ -6,16 +6,21 @@
 namespace sdizo {
 
 RedBlackTree::RedBlackTree() 
-:root(nullptr), size(0UL) {
-
+:size(0UL) {
+    nullLeaf = new Element;
+    nullLeaf->color = BLACK;
+    nullLeaf->left = nullptr;
+    nullLeaf->right = nullptr;
+    root = nullLeaf;
 }
 
 RedBlackTree::~RedBlackTree() {
     deleteSubtree(root);
+    delete nullLeaf;
 }
 
 void RedBlackTree::deleteSubtree(Element* element) {
-    if(element == nullptr)
+    if(element == nullLeaf)
         return;
     
     deleteSubtree(element->left);
@@ -29,7 +34,7 @@ void RedBlackTree::print() {
 }
 
 void RedBlackTree::printRecursive(Element* element, size_t spaces) {
-    if(element == nullptr) {
+    if(element == nullLeaf) {
         std::cout << '\n';
         return;
     }
@@ -40,7 +45,7 @@ void RedBlackTree::printRecursive(Element* element, size_t spaces) {
     else
         std::cout << "R\n";
 
-    if((element->left == nullptr) && (element->right == nullptr))
+    if((element->left == nullLeaf) && (element->right == nullLeaf))
         return;
     
     for(size_t i = 0; i < spaces; ++i)
@@ -58,48 +63,49 @@ void RedBlackTree::printRecursive(Element* element, size_t spaces) {
 }
 
 void RedBlackTree::add(int value, size_t index) {
-    //if the tree is empty, then create a new root
-    if(root == nullptr) {
-        root = new Element;
-        root->value = value;
-        root->color = BLACK;
-        return;
-    }
-
-    //firstly, insert the element as in BST
     Element* element = new Element;
     element->value = value;
+    element->color = RED;
+    element->left = nullLeaf;
+    element->right = nullLeaf;
 
-    Element* iterator = root;
-    while(iterator != nullptr) {
+    Element* current = root;
+    Element* prev = nullptr;
 
-        //determine wheter to choose 
-        //the right or the left node
-        if(iterator->value <= value) {
-            if(iterator->right == nullptr) {
-                iterator->right = element;
-                element->parent = iterator;
-                break;
+    if(root == nullLeaf){
+        root = element;
+    }
+    else{
+
+        while(current != nullLeaf){
+
+            prev=current;
+            if(element->value > current->value){
+                current = current->right;
             }
-
-            iterator = iterator->right;
-            continue;
+            else{
+                current = current->left;
+            }
         }
 
-        if(iterator->left == nullptr) {
-            iterator->left = element;
-            element->parent = iterator;
-            break;
+        element->parent = prev;
+        if(element->value > prev->value){
+            prev->right = element;
         }
-
-        iterator = iterator->left;
-
+        else{
+            prev->left = element;
+        }
     }
 
-    if(element->parent->parent == nullptr)
+    if(element->parent == nullptr){
+        element->color = BLACK;
         return;
+    }
 
-    //then, perform rotations and change colors to preserve RBT conditions
+    if(element->parent->parent == nullptr){
+        return;
+    }
+
     fixInsertion(element);
 }
 
@@ -107,147 +113,119 @@ void RedBlackTree::fixInsertion(Element* element) {
 
     Element* uncle;
 
-    while((element != root) && (element->parent->color == RED)) {
-        Element* grandparent = element->parent->parent;
-        if(grandparent == nullptr) {
-            break;
-        }
+    while (element->parent->color == RED) {
 
-        if(element->parent == grandparent->right) {
-            uncle = grandparent->left;
-
-            if(uncle != nullptr) {
-                if(uncle->color == RED) {
-
-                    uncle->color = BLACK;
-                    element->parent->color = BLACK;
-                    grandparent->color = RED;
-                    element = grandparent;
-                } else {
-                    if(element == element->parent->left) {
-                        element = element->parent;
-                        grandparent = element->parent->parent;
-                        rotateRight(element);
-                    }
-
-                    element->parent->color = BLACK;
-                    if(grandparent != nullptr)
-                        grandparent->color = RED;
-                    rotateLeft(grandparent);
-                }
-            } else {
-
-                if(element == element->parent->left) {
-                    element = element->parent;
-                    grandparent = element->parent->parent;
-                    rotateRight(element);
-                }
-
-                element->parent->color = BLACK;
-                if(grandparent != nullptr)
-                    grandparent->color = RED;
-                rotateLeft(grandparent);
-            }
-
+      if (element->parent == element->parent->parent->right) {
+        
+        uncle = element->parent->parent->left;
+        
+        if (uncle->color == RED) {
+        
+          uncle->color = BLACK;
+          element->parent->color = BLACK;
+          element->parent->parent->color = RED;
+          element = element->parent->parent;
         } else {
-            uncle = grandparent->right;
-            if(uncle != nullptr) {
-                if(uncle->color == RED) {
-
-                    uncle->color = BLACK;
-                    element->parent->color = BLACK;
-                    element->parent->color = RED;
-                    element = grandparent;
-                } else {
-
-                    if(element == element->parent->right) {
-                        element = element->parent;
-                        grandparent = element->parent->parent;
-                        rotateLeft(element);
-                    }
-
-                    element->parent->color = BLACK;
-                    if(grandparent != nullptr)
-                        grandparent->color = RED;
-                    rotateRight(grandparent);
-                }
-            } else {
-                if(element == element->parent->right) {
-                    element = element->parent;
-                    grandparent = element->parent->parent;
-                    rotateLeft(element);
-                }
-
-                element->parent->color = BLACK;
-                if(grandparent != nullptr)
-                        grandparent->color = RED;
-                rotateRight(grandparent);
-            }
-
+        
+          if (element == element->parent->left) {
+            element = element->parent;
+            rotateRight(element);
+          }
+        
+          element->parent->color = BLACK;
+          element->parent->parent->color = RED;
+          rotateLeft(element->parent->parent);
         }
-    }
+      } else {
+        
+        uncle = element->parent->parent->right;
 
+        if (uncle->color == RED) {
+        
+          uncle->color = BLACK;
+          element->parent->color = BLACK;
+          element->parent->parent->color = RED;
+          element = element->parent->parent;
+        } else {
+        
+          if (element == element->parent->right) {
+            element = element->parent;
+            rotateLeft(element);
+          }
+        
+          element->parent->color = BLACK;
+          element->parent->parent->color = RED;
+          rotateRight(element->parent->parent);
+        }
+      }
+      if (element == root) {
+        break;
+      }
+    }
     root->color = BLACK;
 }
 
 void RedBlackTree::rotateLeft(Element* element) {
-    if(element == nullptr) {
-        return;
-    }
-    
-    if(element->right == nullptr) {
+    if(element->right == nullLeaf){
         return;
     }
 
     Element* right = element->right;
     element->right = right->left;
     
-    if(right->left != nullptr) {
-        right->left->parent = element;
+    if (right->left != nullLeaf) {
+      right->left->parent = element;
+    
     }
-
+    
     right->parent = element->parent;
-    if(element->parent == nullptr) {
-        root = right;
-    }
-    else if(element == element->parent->left) {
-        element->parent->left = right;
+    if (element->parent == nullptr) {
+    
+      root = right;
+    
+    } else if (element == element->parent->left) {
+    
+      element->parent->left = right;
+    
     } else {
-        element->parent->right = right;
+    
+      element->parent->right = right;
     }
-
+    
     right->left = element;
     element->parent = right;
 } 
 
 void RedBlackTree::rotateRight(Element* element) {
-    if(element == nullptr) {
+    if(element->left == nullLeaf){
         return;
     }
 
-    if(element->left == nullptr) {
-        return;
-    }
-
-    Element* left = element->left;
-    element->left = left->right;
+    Element* right = element->left;
+    element->left = right->right;
     
-    if(left->right != nullptr) {
-        left->right->parent = element;
+    if(right->right != nullLeaf) {
+      right->right->parent = element;
     }
-
-    left->parent = element->parent;
+    
+    right->parent = element->parent;
+    
     if(element->parent == nullptr) {
-        root = left;
-    }
+    
+      root = right;
+    
+    } 
     else if(element == element->parent->right) {
-        element->parent->right = left;
+    
+      element->parent->right = right;
+    
     } else {
-        element->parent->left = left;
+    
+      element->parent->left = right;
     }
-
-    left->right = element;
-    element->parent = left;
+    
+    right->right = element;
+    element->parent = right;
 }
 
 void RedBlackTree::remove(size_t index) {
@@ -260,16 +238,14 @@ void RedBlackTree::replace(Element* previous, Element* element) {
 
     if(previous->parent == nullptr) {
         root = element;
-    }
-    else if (previous == previous->parent->left) {
-      previous->parent->left = element;
+    } 
+    else if(previous == previous->parent->left) {
+        previous->parent->left = element;
     } else {
-      previous->parent->right = element;
+        previous->parent->right = element;
     }
 
-    if(element != nullptr) {
-        element->parent = previous->parent;
-    }
+    element->parent = previous->parent;
 
 
 
@@ -277,189 +253,125 @@ void RedBlackTree::replace(Element* previous, Element* element) {
 
 void RedBlackTree::removeByValue(int value) {
     Element* element = findElement(value);
-    if(element == nullptr) {
-        return;
+    if(element == nullptr){
+      return;
     }
+    Element *elementToFix, *traverser;
 
-    Element *elementToFix;
-    Element* iterator = element;
-
-    Color originalColor = iterator->color;
-
-    if(element->right == nullptr) {
-        elementToFix = element->left;
-        replace(element, element->left);
-    }
-
-    else if (element->left == nullptr) {
-        elementToFix = element->right;
-        replace(element, element->right);
-    } else {
-        iterator = element->right;
-
-        while(iterator->left != nullptr) {
-            iterator = iterator->left;
+    traverser = element;
+    Color originalColor = traverser->color;
+    
+    if (element->left == nullLeaf) {
+      elementToFix = element->right;
+      replace(element, element->right);
+    } 
+    else if (element->right == nullLeaf) {
+      elementToFix = element->left;
+      replace(element, element->left);
+    } 
+    else {
+        traverser = element->right;
+    
+        while(traverser->left != nullLeaf){
+            traverser = traverser->left;
         }
+    
+        originalColor = traverser->color;
+        elementToFix = traverser->right;
+    
+        if (traverser->parent == element) {
+    
+            elementToFix->parent = traverser;
+        } 
+        else {
+    
+            replace(traverser, traverser->right);
+            traverser->right = element->right;
+            traverser->right->parent = traverser;
+      }
 
-        originalColor = iterator->color;
-        elementToFix = iterator->right;
-        
-        if(iterator->parent == element) {
-            if(elementToFix != nullptr) {
-                elementToFix->parent = iterator;
-            }
-        } else {
-            replace(iterator, iterator->right);
-            iterator->right = element->right;
-            iterator->right->parent = iterator;
-        }
-
-        replace(element, iterator);
-        iterator->left = element->left;
-        iterator->left->parent = iterator;
-        iterator->color = element->color;
-
+        replace(element, traverser);
+        traverser->left = element->left;
+        traverser->left->parent = traverser;
+        traverser->color = element->color;
     }
-
+    
     delete element;
-    element = nullptr;
-    if(originalColor == BLACK)
-        fixRemoval(elementToFix);
+    if (originalColor == BLACK) {
+      fixRemoval(elementToFix);
+    }
 
 }
 
 void RedBlackTree::fixRemoval(Element* element) {
-    if(element == nullptr || element->parent == nullptr) {
-        return;
-    }
     Element* brother;
+    
+    while (element != root && element->color == BLACK) {
+    
+      if (element == element->parent->left) {
+    
+        brother = element->parent->right;
+    
+        if (brother->color == RED) {
+    
+          brother->color = BLACK;
+          element->parent->color = RED;
+          rotateLeft(element->parent);
+          brother = element->parent->right;
+        }
 
-    while(element->color == BLACK && element != root) {
-        if(element->parent->left == element) {
-            brother = element->parent->right;
-
-            if(brother == nullptr) {
-                element = element->parent;
-                continue;
-            }
-
-            if(brother->color == RED) {
-                brother->color = BLACK;
-                element->parent->color = RED;
-                rotateLeft(element->parent);
-                brother = element->parent->right;
-            }
-
-            if(brother != nullptr) {
-
-                if(brother->left == nullptr && brother->right == nullptr) {
-                    brother->color = RED;
-                    element = element->parent;
-                }
-
-                Color leftColor = brother->left == nullptr ? BLACK : brother->left->color;
-                Color rightColor = brother->right == nullptr ? BLACK : brother->right->color;
-
-                if(leftColor == BLACK && rightColor == BLACK) {
-                    brother->color = RED;
-                    element = element->parent;
-                    
-                } else {
-                    if(brother->right == nullptr) {
-                        if(brother->left != nullptr) {
-                            brother->left->color = BLACK;
-                        }
-                        brother->color = RED;
-                        rotateRight(brother);
-                        brother = element->parent->right;
-                    } 
-                    
-                    else if(rightColor == BLACK) {
-                        if(brother->left != nullptr) {
-                            brother->left->color = BLACK;
-                        }
-                        brother->color = RED;
-                        rotateRight(brother);
-                        brother = element->parent->right;
-                    }
-
-                    brother->color = element->parent->color;
-                    if(element->parent != nullptr) {
-                        element->parent->color = BLACK;
-                    }
-
-                    if(brother->right != nullptr) {
-                        brother->right->color = BLACK;
-                    }
-                    rotateLeft(element->parent);
-                    element = root;
-                }
-            }
-
+        if (brother->left->color == BLACK && brother->right->color == BLACK) {
+    
+          brother->color = RED;
+          element = element->parent;
         } else {
+          if (brother->right->color == BLACK) {
+    
+            brother->left->color = BLACK;
+            brother->color = RED;
+            rotateRight(brother);
+            brother = element->parent->right;
+          }
+
+          brother->color = element->parent->color;
+          element->parent->color = BLACK;
+          brother->right->color = BLACK;
+          rotateLeft(element->parent);
+          element = root;
+        }
+      } else {
+    
+        brother = element->parent->left;
+    
+        if (brother->color == RED) {
+    
+          brother->color = BLACK;
+          element->parent->color = RED;
+          rotateRight(element->parent);
+          brother = element->parent->left;
+        }
+
+        if (brother->right->color == BLACK && brother->left->color == BLACK) {
+    
+          brother->color = RED;
+          element = element->parent;
+        } else {
+    
+          if (brother->left->color == BLACK) {
+    
+            brother->right->color = BLACK;
+            brother->color = RED;
+            rotateLeft(brother);
             brother = element->parent->left;
+          }
 
-            if(brother == nullptr) {
-                element = element->parent;
-                continue;
-            }
-
-            if(brother->color == RED) {
-                brother->color = BLACK;
-                element->parent->color = RED;
-                rotateRight(element->parent);
-                brother = element->parent->left;
-            }
-
-            if(brother != nullptr) {
-
-                if(brother->left == nullptr && brother->right == nullptr) {
-                    brother->color = RED;
-                    element = element->parent;
-                }
-
-                Color leftColor = brother->left == nullptr ? BLACK : brother->left->color;
-                Color rightColor = brother->right == nullptr ? BLACK : brother->right->color;
-
-                if(leftColor == BLACK && rightColor == BLACK) {
-                    brother->color = RED;
-                    element = element->parent;
-                    
-                } else {
-                    if(brother->left == nullptr) {
-                        if(brother->right != nullptr) {
-                            brother->right->color = BLACK;
-                        }
-                        brother->color = RED;
-                        rotateRight(brother);
-                        brother = element->parent->right;
-                    } 
-                    
-                    else if(leftColor == BLACK) {
-                        if(brother->right != nullptr) {
-                            brother->right->color = BLACK;
-                        }
-                        brother->color = RED;
-                        rotateLeft(brother);
-                        brother = element->parent->left;
-                    }
-
-                    brother->color = element->parent->color;
-                    if(element->parent != nullptr) {
-                        element->parent->color = BLACK;
-                    }
-                    if(brother->left != nullptr) {
-                        brother->left->color = BLACK;
-                    }
-                    rotateRight(element->parent);
-                    element = root;
-                }
-            }
-
+          brother->color = element->parent->color;
+          element->parent->color = BLACK;
+          brother->left->color = BLACK;
+          rotateRight(element->parent);
+          element = root;
         }
-        if(element == nullptr) {
-            return;
-        }
+      }
     }
     element->color = BLACK;
 }

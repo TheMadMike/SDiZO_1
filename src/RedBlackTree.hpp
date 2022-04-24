@@ -37,6 +37,8 @@ public:
     void rotateLeft(Element* element);
     void rotateRight(Element* element);
 
+    Element* nullLeaf;
+
 private:
     void printRecursive(Element* element, size_t spaces);
     void deleteSubtree(Element* element);

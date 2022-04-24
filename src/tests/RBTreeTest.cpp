@@ -26,7 +26,7 @@ void shouldRotateLeft() {
          1      */
 
     assert(rbt.getRoot()->value == 3);
-    assert(rbt.getRoot()->right == nullptr);
+    assert(rbt.getRoot()->right == rbt.nullLeaf);
     assert(rbt.getRoot()->left->value == 2);
     assert(rbt.getRoot()->left->left->value == 1);
 }
@@ -42,7 +42,7 @@ void shouldRotateRight() {
             3 */
 
     assert(rbt.getRoot()->value == 1);
-    assert(rbt.getRoot()->left == nullptr);
+    assert(rbt.getRoot()->left == rbt.nullLeaf);
     assert(rbt.getRoot()->right->value == 2);
     assert(rbt.getRoot()->right->right->value == 3);
 }
