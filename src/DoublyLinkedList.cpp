@@ -58,7 +58,7 @@ void DoublyLinkedList::add(int value, size_t index) {
         ++size;
         return;
     }
-    if(index == -2) {
+    if(index == -2 || index == 0) {
         addFront(value);
         ++size;
         return;
