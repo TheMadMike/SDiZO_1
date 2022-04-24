@@ -85,7 +85,7 @@ void MaxHeap::remove(size_t index) {
     }
 
     data[index] = data[size - 1];
-    heapify(0);
+    heapify(index);
     Array::remove(-1);
 
 }
